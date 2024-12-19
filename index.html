@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxe Estate - Premium Property Listings</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --dark-background: #1a1a2e;
+            --light-background: #f4f4f8;
+            --text-color: #333;
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-background);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1));
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        header {
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+
+        .search-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .advanced-search {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-input {
+            display: flex;
+            align-items: center;
+            background-color: #f9f9ff;
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #e1e5f0;
+            transition: all 0.3s ease;
+        }
+
+        .search-input i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .search-input input, 
+        .search-input select {
+            border: none;
+            background: transparent;
+            width: 100%;
+            outline: none;
+        }
+
+        .search-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .search-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        #properties {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .property-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .property-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .property-card .image-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .property-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .property-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .property-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+        }
+
+        .property-details {
+            padding: 20px;
+        }
+
+        .property-details h3 {
+            margin-bottom: 10px;
+            color: var(--dark-background);
+            font-weight: 600;
+        }
+
+        .property-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .property-price {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .property-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .btn-details {
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-details:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .advanced-search {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-overlay"></div>
+    
+    <header>
+        <div class="container">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-home"></i>Luxe Estate
+                </div>
+                
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="search-section">
+            <div class="advanced-search">
+                <div class="search-input">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="searchLocation" placeholder="Location">
+                </div>
+                <div class="search-input">
+                    <i class="fas fa-dollar-sign"></i>
+                    <select id="priceRange">
+                        <option value="">Price Range</option>
+                        <option value="0-500000">Up to $500K</option>
+                        <option value="500000-1000000">$500K - $1M</option>
+                        <option value="1000000-2000000">$1M - $2M</option>
+                        <option value="2000000+">$2M+</option>
+                    </select>
+                </div>
+                <div class="search-input">
+                    <i class="fas fa-home"></i>
+                    <select id="propertyType">
+                        <option value="">Property Type</option>
+                        <option value="apartment">Apartment</option>
+                        <option value="villa">Villa</option>
+                        <option value="house">House</option>
+                    </select>
+                </div>
+                <button class="search-btn" onclick="filterProperties()">
+                    <i class="fas fa-search"></i>Search
+                </button>
+            </div>
+        </section>
+
+        <section id="properties"></section>
+    </main>
+
+    <script>
+        const properties = [
+            {
+                id: 1,
+                title: "Modern Downtown Loft",
+                location: "San Francisco, CA",
+                price: 1250000,
+                bedrooms: 2,
+                bathrooms: 2,
+                type: "apartment",
+                imageUrl: "https://is1-3.housingcdn.com/4f2250e8/743be08f4f4093dd251bafd0d88cd28d/v0/fs/udbhav_gokulam-panathur-bengaluru-udbhav_builders_and_developers.jpeg"
+            },
+            {
+                id: 2,
+                title: "Luxury Beachfront Villa",
+                location: "Miami, FL",
+                price: 3500000,
+                bedrooms: 4,
+                bathrooms: 3,
+                type: "villa",
+                imageUrl: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/295090917.jpg?k=d17621b71b0eaa0c7a37d8d8d02d33896cef75145f61e7d96d296d88375a7d39&o=&hp=1"
+            },
+            {
+                id: 3,
+                title: "Suburban Family Home",
+                location: "Austin, TX",
+                price: 650000,
+                bedrooms: 3,
+                bathrooms: 2,
+                type: "house",
+                imageUrl: "https://webberstudio.com/wp-content/uploads/2023/02/Stunning-House-Design.jpg"
+            },
+            {
+                id: 4,
+                title: "Penthouse Apartment",
+                location: "New York, NY",
+                price: 2750000,
+                bedrooms: 3,
+                bathrooms: 3,
+                type: "apartment",
+                imageUrl: "https://images.ctfassets.net/0gqf8nju6pz6/2tWVGLpVkUlTa3UQXG9gzZ/6a5e18c2421f1033e92159b756a6ddb1/Penthouse2.jpeg"
+            }
+        ];
+
+        function renderProperties(propertyList) {
+            const propertiesContainer = document.getElementById('properties');
+            propertiesContainer.innerHTML = '';
+
+            propertyList.forEach(property => {
+                const propertyCard = document.createElement('div');
+                propertyCard.classList.add('property-card');
+                
+                propertyCard.innerHTML = `
+                    <div class="image-container">
+                        <img src="${property.imageUrl}" alt="${property.title}">
+                        <div class="property-badge">${property.type}</div>
+                    </div>
+                    <div class="property-details">
+                        <h3>${property.title}</h3>
+                        <div class="property-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> ${property.location}</span>
+                            <span><i class="fas fa-bed"></i> ${property.bedrooms} BD | ${property.bathrooms} BA</span>
+                        </div>
+                        <div class="property-actions">
+                            <div class="property-price">$${property.price.toLocaleString()}</div>
+                            
+                        </div>
+                    </div>
+                `;
+
+                propertiesContainer.appendChild(propertyCard);
+            });
+        }
+
+        function filterProperties() {
+            const locationSearch = document.getElementById('searchLocation').value.toLowerCase();
+            const priceRange = document.getElementById('priceRange').value;
+            const propertyType = document.getElementById('propertyType').value;
+
+            const filteredProperties = properties.filter(property => {
+                const locationMatch = property.location.toLowerCase().includes(locationSearch);
+                const typeMatch = propertyType ? property.type === propertyType : true;
+                
+                if (priceRange) {
+                    const [min, max] = priceRange.split('-').map(Number);
+                    const priceMatch = max 
+                        ? property.price >= min && property.price <= max
+                        : property.price >= min;
+                    
+                    return locationMatch && priceMatch && typeMatch;
+                }
+
+                return locationMatch && typeMatch;
+            });
+
+            renderProperties(filteredProperties);
+        }
+
+        // Initial render
+        renderProperties(properties);
+    </script>
+</body>
+</html>
